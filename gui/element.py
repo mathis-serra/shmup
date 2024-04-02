@@ -2,32 +2,32 @@ import pygame
 
 class Element:
     def __init__(self):
-        self.W = 1000
-        self.H = 600
+        self.W = 850
+        self.H = 750
         self.Screen = pygame.display.set_mode((self.W, self.H))
         pygame.display.set_caption("See of Shump")
         self.clock = pygame.time.Clock()
         
     def img(self, x, y, width, height, image_name):
-        image = pygame.image.load(f'images/{image_name}.png')
+        image = pygame.image.load(f'assets/{image_name}')
         image = pygame.transform.scale(image, (width, height))
         self.Screen.blit(image, (x - image.get_width()//2, y - image.get_height()//2))
 
     def img_background(self, x, y, width, height, image_name):
-        image = pygame.image.load(f'images/{image_name}.png').convert()
+        image = pygame.image.load(f'assets/{image_name}').convert()
         image = pygame.transform.scale(image, (width, height))
         image.set_alpha(115)
         self.Screen.blit(image, (x - image.get_width()//2, y - image.get_height()//2))
 
     def text(self, text_size, text_content, color, x, y):
-        font = pygame.font.Font('font/helvetica_neue_regular.otf', text_size)
+        font = pygame.font.Font('font/campana.otf', text_size)
         text = font.render(text_content, True, color)
         text_rect = text.get_rect(topleft=(x, y))
         self.Screen.blit(text, text_rect)  
 
 
     def text_align(self, text_size, text_content,color, x, y):
-        font = pygame.font.Font('font/helvetica_neue_regular.otf', text_size) 
+        font = pygame.font.Font('font/campana.otf.otf', text_size) 
         text = font.render(text_content, True, color)
         text_rect = text.get_rect(center=(x, y))
         self.Screen.blit(text, text_rect)
