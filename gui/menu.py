@@ -17,14 +17,14 @@ class Menu(Element):
 
                 # Event keyboard
                 elif event.type == pygame.KEYDOWN and self.home_page:
-                    pygame.quit()
+                    self.home_page = False
+                    self.menu_page = True
 
             if self.home_page:
                 self.img(350, 350, 1400, 750, "menu/background_home.jpg")
                 self.text(40, "Appuyer sur ENTRER pour COMMENCER !", self.white, 250, 640)
 
             if self.menu_page:
-                pass
-
+                self.img(350, 350, 1400, 750, "menu/background_menu.png")
 
             self.update()
