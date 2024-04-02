@@ -20,9 +20,11 @@ class Menu(Element):
                     pygame.quit()
 
             if self.home_page:
-                self.img(350, 350, 1400, 750, "menu/background_home1.jpg")
+                self.img(350, 350, 1400, 750, "menu/background_home.jpg")
+                self.text(40, "Appuyer sur ENTRER pour COMMENCER !", self.white, 250, 640)
 
             if self.menu_page:
                 pass
+
 
             self.update()

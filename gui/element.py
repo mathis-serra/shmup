@@ -7,6 +7,7 @@ class Element:
         self.Screen = pygame.display.set_mode((self.W, self.H))
         pygame.display.set_caption("See of Shump")
         self.clock = pygame.time.Clock()
+        self.white = (255,255,255)
         
     def img(self, x, y, width, height, image_name):
         image = pygame.image.load(f'assets/{image_name}')
@@ -20,14 +21,14 @@ class Element:
         self.Screen.blit(image, (x - image.get_width()//2, y - image.get_height()//2))
 
     def text(self, text_size, text_content, color, x, y):
-        font = pygame.font.Font('font/campana.otf', text_size)
+        font = pygame.font.Font('gui/font/CampanaScript_PERSONAL_USE_ONLY.otf', text_size)
         text = font.render(text_content, True, color)
         text_rect = text.get_rect(topleft=(x, y))
         self.Screen.blit(text, text_rect)  
 
 
     def text_align(self, text_size, text_content,color, x, y):
-        font = pygame.font.Font('font/campana.otf.otf', text_size) 
+        font = pygame.font.Font('gui/font/CampanaScript_PERSONAL_USE_ONLY.otf', text_size) 
         text = font.render(text_content, True, color)
         text_rect = text.get_rect(center=(x, y))
         self.Screen.blit(text, text_rect)
