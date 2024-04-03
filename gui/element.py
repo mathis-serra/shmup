@@ -8,6 +8,10 @@ class Element:
         pygame.display.set_caption("See of Shump")
         self.clock = pygame.time.Clock()
         self.white = (255,255,255)
+        self.brown = (140, 63, 63)
+        self.black = (0, 0, 0)
+        self.grey = (209, 198, 198)
+        self.dark_red = (211, 38, 38)
         
     def img(self, x, y, width, height, image_name):
         image = pygame.image.load(f'assets/{image_name}')

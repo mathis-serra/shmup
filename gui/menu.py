@@ -6,6 +6,12 @@ class Menu(Element):
         super().__init__()
         self.home_page = True
         self.menu_page = False
+        
+    def button_menu(self):
+        self.text(55,"Jouer",self.dark_red,535,70)
+        self.text(50,"Option",self.dark_red,525,170)
+        self.text(50,"Quitter",self.dark_red,525,270)
+        
 
     def home(self):
         self.menu_run = True
@@ -26,5 +32,7 @@ class Menu(Element):
 
             if self.menu_page:
                 self.img(350, 350, 1400, 750, "menu/background_menu.png")
+                self.button_menu()
+                
 
             self.update()
