@@ -10,6 +10,7 @@ class Element:
         self.white = (255,255,255)
         self.brown = (140, 63, 63)
         self.black = (0, 0, 0)
+        self.light_black = (56, 53, 53)
         self.grey = (209, 198, 198)
         self.dark_red = (211, 38, 38)
         
