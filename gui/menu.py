@@ -35,8 +35,13 @@ class Menu(Element):
                             self.cursor_position = (self.cursor_position - 1) % 3
                         elif event.key == pygame.K_DOWN:
                             self.cursor_position = (self.cursor_position + 1) % 3  # Déplacer le curseur vers le bas
+                        elif event.key == pygame.K_RETURN and self.cursor_position == 0:
+                            game = Game()
+                            game.run() 
+                        elif event.key == pygame.K_RETURN and self.cursor_position == 1:
+                            print("Option")                           
                         elif event.key == pygame.K_RETURN and self.cursor_position == 2:  # Si sur "Quitter"
-                            pygame.quit()
+                            self.menu_run = False
 
             if self.home_page:
                 self.img(350, 350, 1400, 750, "menu/background_home.jpg")
@@ -49,11 +54,11 @@ class Menu(Element):
 
             self.update()
 
-    def handle_menu_action(self):
-        if self.cursor_position == 0:
-            game = Game()
-            game.run()
-        elif self.cursor_position == 1:
-            print("Option")
-        elif self.cursor_position == 2:
-            self.menu_run = False  # Gracefully exit the loop
+    # def handle_menu_action(self):
+    #     if self.cursor_position == 0:
+    #         game = Game()
+    #         game.run()
+    #     elif self.cursor_position == 1:
+    #         print("Option")
+    #     elif self.cursor_position == 2:
+    #         self.menu_run = False  # Gracefully exit the loop

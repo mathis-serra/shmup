@@ -9,34 +9,26 @@ class Game:
         self.display = pg.display.set_mode((WIDTH, HEIGHT))
         self.clock = pg.time.Clock()
         self.weapon = Weapon()  # Create an instance of Weapon
-        self.all_bullets = []  # List to store all the bullets
+        self.all_bullets = pg.sprite.Group()  # Using pygame sprite group for bullets
         self.last_shot_time = 0
-        
-        
-        
+
     def handle_events(self):
-        current_time = pg.time.get_ticks()  # Get the current time
-        # Check if enough time has passed since the last shot
-        if current_time - self.last_shot_time >= 350:  # 200 milliseconds = 0.2 seconds
-            for event in pg.event.get():
-                if event.type == pg.QUIT:
-                    self.running = False
-                elif event.type == pg.KEYDOWN:
-                    if event.key == pg.K_SPACE:
-                        bullet = self.weapon.shoot()  # Call shoot method from the weapon
-                        self.all_bullets.append(bullet)  # Add the bullet to the list
-                        self.last_shot_time = current_time  # Update the last shot time
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                self.running = False
+            elif event.type == pg.KEYDOWN:
+                if event.key == pg.K_SPACE:
+                    self.weapon.shoot(self.all_bullets)  # Pass all_bullets group to shoot method
+                    self.last_shot_time = pg.time.get_ticks()  # Update the last shot time
 
     def update(self):
         self.weapon.move()  # Move the weapon
-        for bullet in self.all_bullets:
-            bullet.update()  # Update each bullet's position
+        self.all_bullets.update()  # Update all bullets
 
     def draw(self):
         self.display.fill((0, 0, 0))  # Fill the screen with black color
-        pg.draw.rect(self.display, (255, 255, 255), self.weapon.rect)  # Draw the weapon's rectangle
-        for bullet in self.all_bullets:
-            pg.draw.circle(self.display, bullet.color, bullet.rect.center, bullet.radius)  # Draw the bullets
+        self.display.blit(self.weapon.image, self.weapon.rect)  # Draw the weapon's image
+        self.all_bullets.draw(self.display)  # Draw all bullets
         pg.display.flip()  # Update the display
 
     def run(self):
@@ -45,5 +37,3 @@ class Game:
             self.update()
             self.draw()
             self.clock.tick(FPS)
-
-        pg.quit()
