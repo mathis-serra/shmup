@@ -34,9 +34,9 @@ class Menu(Element):
                         if event.key == pygame.K_UP:
                             self.cursor_position = (self.cursor_position - 1) % 3
                         elif event.key == pygame.K_DOWN:
-                            self.cursor_position = (self.cursor_position + 1) % 3
-                        elif event.key == pygame.K_RETURN:
-                            self.handle_menu_action()
+                            self.cursor_position = (self.cursor_position + 1) % 3  # Déplacer le curseur vers le bas
+                        elif event.key == pygame.K_RETURN and self.cursor_position == 2:  # Si sur "Quitter"
+                            pygame.quit()
 
             if self.home_page:
                 self.img(350, 350, 1400, 750, "menu/background_home.jpg")
@@ -44,7 +44,8 @@ class Menu(Element):
 
             if self.menu_page:
                 self.img(350, 350, 1400, 750, "menu/background_menu.png")
-                self.text_button_menu()
+                self.img(570, 350, 300, 350, "menu/parchemin_menu.png")
+                self.text_button_menu() 
 
             self.update()
 
