@@ -12,18 +12,24 @@ class Game:
         self.all_bullets = pg.sprite.Group()  # Using pygame sprite group for bullets
         self.last_shot_time = 0
 
+
+
     def handle_events(self):
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                self.running = False
-            elif event.type == pg.KEYDOWN:
-                if event.key == pg.K_SPACE:
-                    self.weapon.shoot(self.all_bullets)  # Pass all_bullets group to shoot method
-                    self.last_shot_time = pg.time.get_ticks()  # Update the last shot time
+        current_time = pg.time.get_ticks()  # Get the current time
+        # Check if enough time has passed since the last shot
+        if current_time - self.last_shot_time >= 350:  # 350 milliseconds
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    self.running = False
+                elif event.type == pg.KEYDOWN:
+                    if event.key == pg.K_SPACE: 
+                        self.weapon.shoot(self.all_bullets)  # Pass all_bullets group to shoot method
+                        self.last_shot_time = pg.time.get_ticks()  # Update the last shot time
 
     def update(self):
         self.weapon.move()  # Move the weapon
-        self.all_bullets.update()  # Update all bullets
+        for bullet in self.all_bullets:
+            bullet.update()  # Update each bullet's position
 
     def draw(self):
         self.display.fill((0, 0, 0))  # Fill the screen with black color
