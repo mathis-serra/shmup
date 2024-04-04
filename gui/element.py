@@ -2,8 +2,8 @@ import pygame
 
 class Element:
     def __init__(self):
-        self.W = 850
-        self.H = 750
+        self.W = 1300
+        self.H = 700
         self.Screen = pygame.display.set_mode((self.W, self.H))
         pygame.display.set_caption("See of Shump")
         self.clock = pygame.time.Clock()

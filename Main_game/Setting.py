@@ -1,8 +1,8 @@
 import random
 
 # screen properties
-WIDTH = 850
-HEIGHT = 750
+WIDTH = 1300
+HEIGHT = 700
 WINDOW_DIMENSION = (WIDTH, HEIGHT)
 FPS = 60
 
