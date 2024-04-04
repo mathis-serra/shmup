@@ -12,11 +12,13 @@ class Menu(Element):
     def text_button_menu(self):
         button_labels = ["Jouer", "Option", "Quitter"]
         for idx, label in enumerate(button_labels):
-            x = 535
+            x = 835
             y = 250 + 100 * idx
             self.text(50, label, self.light_black, x, y)
             if self.cursor_position == idx:
-                self.text(55, ">", self.dark_red, 510, y)
+                # Ajuster les coordonnées x de la flèche pour qu'elle soit à côté du texte sélectionné
+                arrow_x = x - 30
+                self.text(55, ">", self.dark_red, arrow_x, y)
 
     def home(self):
         self.menu_run = True
@@ -48,8 +50,8 @@ class Menu(Element):
                 self.text(42, "Appuyer sur ENTRER pour COMMENCER !", self.white, 520, 640)
 
             if self.menu_page:
-                self.img(350, 350, 1400, 750, "menu/background_menu.png")
-                self.img(570, 350, 300, 350, "menu/parchemin_menu.png")
+                self.img(650, 370, 1300, 750, "menu/background_menu.png")
+                self.img(870, 350, 300, 350, "menu/parchemin_menu.png")
                 self.text_button_menu() 
 
             self.update()
