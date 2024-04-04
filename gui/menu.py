@@ -44,8 +44,8 @@ class Menu(Element):
                             self.menu_run = False
 
             if self.home_page:
-                self.img(350, 350, 1400, 750, "menu/background_home.jpg")
-                self.text(40, "Appuyer sur ENTRER pour COMMENCER !", self.white, 250, 640)
+                self.img(650, 370, 1300, 750, "menu/background_home.jpg")
+                self.text(42, "Appuyer sur ENTRER pour COMMENCER !", self.white, 520, 640)
 
             if self.menu_page:
                 self.img(350, 350, 1400, 750, "menu/background_menu.png")
