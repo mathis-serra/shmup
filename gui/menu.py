@@ -48,6 +48,7 @@ class Menu(Element):
 
             if self.menu_page:
                 self.img(350, 350, 1400, 750, "menu/background_menu.png")
+                self.img(570, 350, 300, 350, "menu/parchemin_menu.png")
                 self.text_button_menu() 
 
             self.update()
