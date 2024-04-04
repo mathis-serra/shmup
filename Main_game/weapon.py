@@ -15,13 +15,16 @@ class Weapon(pg.sprite.Sprite):
             self.rect.x -= 5
         elif keys[pg.K_RIGHT]:
             self.rect.x += 5
+        
+        # Limit the movement to stay within the screen boundaries
+        self.rect.x = max(0, min(self.rect.x, WIDTH - self.rect.width))
 
     def shoot(self, bullets_group):
         bullet = Bullet(self.rect.centerx, self.rect.top)
         bullets_group.add(bullet)
 
 
-# Dans weapon.py
+# Dans bullet.py
 class Bullet(pg.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
