@@ -1,5 +1,6 @@
-from gui.element import Element
 import pygame
+from Main_game.Game import Game
+from gui.element import Element
 
 class Menu(Element):
     def __init__(self):
@@ -9,26 +10,21 @@ class Menu(Element):
         self.cursor_position = 0
 
     def text_button_menu(self):
-        self.text(55, "Jouer", self.light_black, 535, 250)
-        self.text(50, "Option", self.light_black, 525, 350)
-        self.text(50, "Quitter", self.light_black, 525, 450)
-        # Draw cursor
-        if self.cursor_position == 0:
-            self.text(55, ">", self.dark_red, 510, 250)
-        elif self.cursor_position == 1:
-            self.text(55, ">", self.dark_red, 500, 350)
-        elif self.cursor_position == 2:
-            self.text(55, ">", self.dark_red, 510, 450)
+        button_labels = ["Jouer", "Option", "Quitter"]
+        for idx, label in enumerate(button_labels):
+            x = 535
+            y = 250 + 100 * idx
+            self.text(50, label, self.light_black, x, y)
+            if self.cursor_position == idx:
+                self.text(55, ">", self.dark_red, 510, y)
 
     def home(self):
         self.menu_run = True
         while self.menu_run:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit()
-                    quit()
+                    self.menu_run = False  # Gracefully exit the loop
 
-                # Gestion des touches du clavier
                 elif event.type == pygame.KEYDOWN:
                     if self.home_page:
                         if event.key == pygame.K_RETURN:
@@ -36,9 +32,11 @@ class Menu(Element):
                             self.menu_page = True
                     elif self.menu_page:
                         if event.key == pygame.K_UP:
-                            self.cursor_position = (self.cursor_position - 1) % 3  # Déplacer le curseur vers le haut
+                            self.cursor_position = (self.cursor_position - 1) % 3
                         elif event.key == pygame.K_DOWN:
-                            self.cursor_position = (self.cursor_position + 1) % 3  # Déplacer le curseur vers le bas
+                            self.cursor_position = (self.cursor_position + 1) % 3
+                        elif event.key == pygame.K_RETURN:
+                            self.handle_menu_action()
 
             if self.home_page:
                 self.img(350, 350, 1400, 750, "menu/background_home.jpg")
@@ -47,6 +45,14 @@ class Menu(Element):
             if self.menu_page:
                 self.img(350, 350, 1400, 750, "menu/background_menu.png")
                 self.text_button_menu()
-                
 
             self.update()
+
+    def handle_menu_action(self):
+        if self.cursor_position == 0:
+            game = Game()
+            game.run()
+        elif self.cursor_position == 1:
+            print("Option")
+        elif self.cursor_position == 2:
+            self.menu_run = False  # Gracefully exit the loop
