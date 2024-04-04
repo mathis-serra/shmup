@@ -28,20 +28,11 @@ class Weapon(pg.sprite.Sprite):
         if self.rect.left < 0 or self.rect.right > WIDTH:
             return True
         return False
-
-    
-    
-    
-    # def __init__(self, x, y):
-    #     self.radius = 5  # Set the radius of the bullet
-    #     self.color = (0, 255, 0)  # Set the color of the bullet
-    #     self.rect = pg.Rect(0, 0, self.radius * 2, self.radius * 2)
-    #     self.rect.center = (x, y)  # Set the initial position of the bullet
 class Bullet(pg.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
         self.image = pg.Surface((10, 10))  # Example surface for bullet image
-        self.image.fill((255, 0, 0))  # Red circle as placeholder
+        self.image.fill((0, 255, 0))  # Red circle as placeholder
         self.rect = self.image.get_rect(center=(x, y))
         self.speed = -10  # Bullet speed
         
