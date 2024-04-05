@@ -7,7 +7,7 @@ class Weapon(pg.sprite.Sprite):
         super().__init__()
         self.loaded_cannon = pg.image.load(f'assets/sprite/canon_charger.png')  # Chargement de l'image du canon
         self.loaded_cannon = pg.transform.scale(self.loaded_cannon, (150, 85))  # Redimensionner l'image
-        self.rect = self.image.get_rect(center=(WIDTH / 2 - 600, HEIGHT / 2))
+        self.rect = self.loaded_cannon.get_rect(center=(WIDTH / 2 - 600, HEIGHT / 2))
 
     def move(self):
         keys = pg.key.get_pressed()
