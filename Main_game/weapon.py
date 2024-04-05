@@ -7,7 +7,7 @@ class Weapon(pg.sprite.Sprite):
         super().__init__()
         self.loaded_cannon = pg.image.load(f'assets/sprite/canon_charger.png')  # Chargement de l'image du canon
         self.loaded_cannon = pg.transform.scale(self.loaded_cannon, (150, 85))  # Redimensionner l'image
-        self.rect = self.loaded_cannon.get_rect(center=(WIDTH / 2 - 600, HEIGHT / 2))
+        self.rect = self.loaded_cannon.get_rect(center=(WIDTH / 2 - 580, HEIGHT / 2))
 
     def move(self):
         keys = pg.key.get_pressed()
@@ -31,7 +31,7 @@ class Bullet(pg.sprite.Sprite):
         super().__init__()
         self.bullet_canon = pg.image.load(f'assets/sprite/boule_canon.png')
         self.bullet_canon= pg.transform.scale(self.bullet_canon, (30, 30)) # Charge l'image de la balle
-        self.rect = self.bullet_canon.get_rect(center=(x, y))
+        self.rect = self.bullet_canon.get_rect(center=(x+65, y-22))
         self.speed = +10  # Bullet speed
 
     def update(self):
