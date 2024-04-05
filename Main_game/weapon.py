@@ -1,4 +1,5 @@
 import pygame as pg
+import pygame
 from Main_game.Setting import *
 
 
@@ -6,9 +7,10 @@ from Main_game.Setting import *
 class Weapon(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pg.Surface((50, 50))  # Example surface for weapon image
-        self.image.fill((255, 255, 255))  # White rectangle as placeholder
-        self.rect = self.image.get_rect(center=(WIDTH // 2, HEIGHT - 50))
+        self.loaded_cannon = pygame.image.load(f'assets/sprite/canon_charger.png')  # Example surface for weapon image
+        self.loaded_cannon.fill((255, 255, 255))  # White rectangle as placeholder
+        self.rect = self.loaded_cannon.get_rect(center=(WIDTH // 2, HEIGHT - 50))
+        # self.cannon_shooting = pygame.image.load(f'assets/sprite/canon_shooting.png')        
 
     def move(self):
         keys = pg.key.get_pressed()
@@ -29,9 +31,9 @@ class Weapon(pg.sprite.Sprite):
 class Bullet(pg.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pg.Surface((10, 10))  # Example surface for bullet image
-        self.image.fill((255, 0, 0))  # Red circle as placeholder
-        self.rect = self.image.get_rect(center=(x, y))
+        self.bullet_canon = pygame.image.load(f'assets/sprite/boule_canon.png') # Example surface for bullet image
+        self.bullet_canon.fill((255, 0, 0))  # Red circle as placeholder
+        self.rect = self.bullet_canon.get_rect(center=(x, y))
         self.speed = -10  # Bullet speed
 
     def update(self):

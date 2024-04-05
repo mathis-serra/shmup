@@ -13,8 +13,9 @@ class Game(Element):
         self.weapon = Weapon()  # Create an instance of Weapon
         self.all_bullets = pg.sprite.Group()  # Using pygame sprite group for bullets
         self.last_shot_time = 0
-
-
+        
+    def draw_map(self):
+        self.img(650, 370, 1300, 900, "sprite/background_game.jpg")
 
     def handle_events(self):
         current_time = pg.time.get_ticks()  # Get the current time
@@ -35,14 +36,15 @@ class Game(Element):
 
     def draw(self):
         self.display.fill((0, 0, 0))  # Fill the screen with black color
-        self.display.blit(self.weapon.image, self.weapon.rect)  # Draw the weapon's image
+        self.draw_map()
+        self.display.blit(self.weapon.loaded_cannon, self.weapon.rect)  # Draw the weapon's image
         self.all_bullets.draw(self.display)  # Draw all bullets
-        self.update()  # Update the display
 
     def run(self):
         while self.running:
             self.handle_events()
             self.update_shooter()
             self.draw()
+            self.update()
             self.clock.tick(FPS)
-        pg.quit()
+
