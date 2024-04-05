@@ -10,35 +10,38 @@ class Game(Element):
         self.running = True
         self.display = pg.display.set_mode((WIDTH, HEIGHT))
         self.clock = pg.time.Clock()
-        self.weapon = Weapon()  # Create an instance of Weapon
-        self.all_bullets = pg.sprite.Group()  # Using pygame sprite group for bullets
+        self.weapon = Weapon()
+        self.all_bullets = pg.sprite.Group()
         self.last_shot_time = 0
         
     def draw_map(self):
         self.img(650, 370, 1300, 900, "sprite/background_game.jpg")
 
     def handle_events(self):
-        current_time = pg.time.get_ticks()  # Get the current time
-        # Check if enough time has passed since the last shot
-        if current_time - self.last_shot_time >= 350:  # 350 milliseconds
+        current_time = pg.time.get_ticks()  # Récupère le temps actuel
+        # Vérifie si suffisamment de temps s'est écoulé depuis le dernier tir
+        if current_time - self.last_shot_time >= 350:  # 350 millisecondes
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     self.running = False
                 elif event.type == pg.KEYDOWN:
                     if event.key == pg.K_SPACE: 
-                        self.weapon.shoot(self.all_bullets)  # Pass all_bullets group to shoot method
-                        self.last_shot_time = pg.time.get_ticks()  # Update the last shot time
+                        self.weapon.shoot(self.all_bullets)  # Passe le groupe all_bullets à la méthode shoot
+                        self.last_shot_time = pg.time.get_ticks()  # Met à jour le dernier temps de tir
 
     def update_shooter(self):
-        self.weapon.move()  # Move the weapon
+        self.weapon.move()  # Déplace l'arme
         for bullet in self.all_bullets:
-            bullet.update()  # Update each bullet's position
+            bullet.update()  # Met à jour la position de chaque balle
 
     def draw(self):
-        self.display.fill((0, 0, 0))  # Fill the screen with black color
+        self.display.fill((0, 0, 0))  # Remplit l'écran avec une couleur noire
         self.draw_map()
-        self.display.blit(self.weapon.loaded_cannon, self.weapon.rect)  # Draw the weapon's image
-        self.all_bullets.draw(self.display)  # Draw all bullets
+        self.display.blit(self.weapon.loaded_cannon, self.weapon.rect)  # Dessine l'image de l'arme
+
+        # Dessine chaque balle
+        for bullet in self.all_bullets:
+            self.display.blit(bullet.bullet_canon, bullet.rect)  # Dessine l'image de la balle à l'emplacement de son rect
 
     def run(self):
         while self.running:
@@ -47,4 +50,3 @@ class Game(Element):
             self.draw()
             self.update()
             self.clock.tick(FPS)
-

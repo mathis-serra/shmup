@@ -6,7 +6,7 @@ class Weapon(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.loaded_cannon = pg.image.load(f'assets/sprite/canon_charger.png')  # Chargement de l'image du canon
-        self.loaded_cannon = pg.transform.scale(self.loaded_cannon, (140, 75))  # Redimensionner l'image
+        self.loaded_cannon = pg.transform.scale(self.loaded_cannon, (150, 85))  # Redimensionner l'image
         self.rect = self.loaded_cannon.get_rect(center=(WIDTH // 2, HEIGHT - 50))
 
     def move(self):
@@ -28,12 +28,12 @@ class Weapon(pg.sprite.Sprite):
 class Bullet(pg.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.bullet_canon = pg.image.load(f'assets/sprite/boule_canon.png')  # Chargement de l'image de la balle
-        self.bullet_canon = pg.transform.scale(self.bullet_canon, (50, 50))  # Redimensionner l'image
+        self.bullet_canon = pg.image.load(f'assets/sprite/boule_canon.png')
+        self.bullet_canon= pg.transform.scale(self.bullet_canon, (30, 30)) # Charge l'image de la balle
         self.rect = self.bullet_canon.get_rect(center=(x, y))
         self.speed = -10  # Vitesse de la balle
 
     def update(self):
         self.rect.y += self.speed
         if self.rect.bottom < 0:
-            self.kill()  # Supprimer la balle si elle sort de l'écran
+            self.kill()  # Supprime la balle si elle sort de l'écra
