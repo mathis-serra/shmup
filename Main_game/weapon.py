@@ -1,13 +1,12 @@
 import pygame as pg
 from Main_game.Setting import *
 
-
 # Dans weapon.py
 class Weapon(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pg.Surface((50, 50))  # Example surface for weapon image
-        self.image.fill((255, 255, 255))  # White rectangle as placeholder
+        self.loaded_cannon = pg.image.load(f'assets/sprite/canon_charger.png')  # Chargement de l'image du canon
+        self.loaded_cannon = pg.transform.scale(self.loaded_cannon, (150, 85))  # Redimensionner l'image
         self.rect = self.image.get_rect(center=(WIDTH / 2 - 600, HEIGHT / 2))
 
     def move(self):
@@ -30,12 +29,12 @@ class Weapon(pg.sprite.Sprite):
 class Bullet(pg.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pg.Surface((10, 10))  # Example surface for bullet image
-        self.image.fill((255, 0, 0))  # Red circle as placeholder
-        self.rect = self.image.get_rect(center=(x, y))
+        self.bullet_canon = pg.image.load(f'assets/sprite/boule_canon.png')
+        self.bullet_canon= pg.transform.scale(self.bullet_canon, (30, 30)) # Charge l'image de la balle
+        self.rect = self.bullet_canon.get_rect(center=(x, y))
         self.speed = +10  # Bullet speed
 
     def update(self):
         self.rect.x += self.speed
         if self.rect.bottom < 0:
-            self.kill()  # Remove the bullet if it goes off-screen
+            self.kill()  # Supprime la balle si elle sort de l'écra
