@@ -33,7 +33,10 @@ class Menu(Element):
                             self.home_page = False
                             self.menu_page = True
                     elif self.menu_page:
-                        if event.key == pygame.K_UP:
+                        if event.key == pygame.K_ESCAPE:
+                            self.menu_page = False
+                            self.home_page = True
+                        elif event.key == pygame.K_UP:
                             self.cursor_position = (self.cursor_position - 1) % 3
                         elif event.key == pygame.K_DOWN:
                             self.cursor_position = (self.cursor_position + 1) % 3  # Déplacer le curseur vers le bas

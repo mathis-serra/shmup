@@ -45,3 +45,4 @@ class Game(Element):
             self.update_shooter()
             self.draw()
             self.clock.tick(FPS)
+        pg.quit()
