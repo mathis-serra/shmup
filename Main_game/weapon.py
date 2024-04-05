@@ -1,16 +1,13 @@
 import pygame as pg
-import pygame
 from Main_game.Setting import *
-
 
 # Dans weapon.py
 class Weapon(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.loaded_cannon = pygame.image.load(f'assets/sprite/canon_charger.png')  # Example surface for weapon image
-        self.loaded_cannon.fill((255, 255, 255))  # White rectangle as placeholder
+        self.loaded_cannon = pg.image.load(f'assets/sprite/canon_charger.png')  # Chargement de l'image du canon
+        self.loaded_cannon = pg.transform.scale(self.loaded_cannon, (140, 75))  # Redimensionner l'image
         self.rect = self.loaded_cannon.get_rect(center=(WIDTH // 2, HEIGHT - 50))
-        # self.cannon_shooting = pygame.image.load(f'assets/sprite/canon_shooting.png')        
 
     def move(self):
         keys = pg.key.get_pressed()
@@ -19,7 +16,7 @@ class Weapon(pg.sprite.Sprite):
         elif keys[pg.K_RIGHT]:
             self.rect.x += 5
         
-        # Limit the movement to stay within the screen boundaries
+        # Limiter le mouvement pour rester dans les limites de l'écran
         self.rect.x = max(0, min(self.rect.x, WIDTH - self.rect.width))
 
     def shoot(self, bullets_group):
@@ -31,12 +28,12 @@ class Weapon(pg.sprite.Sprite):
 class Bullet(pg.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.bullet_canon = pygame.image.load(f'assets/sprite/boule_canon.png') # Example surface for bullet image
-        self.bullet_canon.fill((255, 0, 0))  # Red circle as placeholder
+        self.bullet_canon = pg.image.load(f'assets/sprite/boule_canon.png')  # Chargement de l'image de la balle
+        self.bullet_canon = pg.transform.scale(self.bullet_canon, (50, 50))  # Redimensionner l'image
         self.rect = self.bullet_canon.get_rect(center=(x, y))
-        self.speed = -10  # Bullet speed
+        self.speed = -10  # Vitesse de la balle
 
     def update(self):
         self.rect.y += self.speed
         if self.rect.bottom < 0:
-            self.kill()  # Remove the bullet if it goes off-screen
+            self.kill()  # Supprimer la balle si elle sort de l'écran
