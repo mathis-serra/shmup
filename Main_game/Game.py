@@ -33,6 +33,7 @@ class Game(Element):
                 if event.type == pg.QUIT:
                     self.running = False
                 elif event.type == pg.KEYDOWN:
+<<<<<<< HEAD
                     if event.key == pg.K_SPACE:
                         self.weapon.shoot(self.all_bullets)  
                         self.last_shot_time = pg.time.get_ticks()  
