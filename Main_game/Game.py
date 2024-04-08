@@ -28,6 +28,7 @@ class Game(Element):
                     if event.key == pg.K_SPACE: 
                         self.weapon.shoot(self.all_bullets)  # Passe le groupe all_bullets à la méthode shoot
                         self.last_shot_time = pg.time.get_ticks()  # Met à jour le dernier temps de tir
+                        self.weapon.reset_image()
 
     def update_shooter(self):
         self.weapon.move()  # Déplace l'arme
@@ -37,7 +38,7 @@ class Game(Element):
     def draw(self):
         self.display.fill((0, 0, 0))  # Remplit l'écran avec une couleur noire
         self.draw_map()
-        self.display.blit(self.weapon.loaded_cannon, self.weapon.rect)  # Dessine l'image de l'arme
+        self.display.blit(self.weapon.asset, self.weapon.rect)  # Dessine l'image de l'arme
 
         # Dessine chaque balle
         for bullet in self.all_bullets:
