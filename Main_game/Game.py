@@ -2,7 +2,7 @@ import pygame as pg
 from Main_game.Setting import *
 from Main_game.weapon import Weapon, Bullet
 from gui.element import Element
-
+from Main_game.Enemy import EnemiesManager
 
 class Game(Element):
     def __init__(self):
@@ -13,26 +13,34 @@ class Game(Element):
         self.weapon = Weapon()
         self.all_bullets = pg.sprite.Group()
         self.last_shot_time = 0
+        self.enemies_manager = EnemiesManager()  # Initialisation du gestionnaire d'ennemis
         
     def draw_map(self):
         self.img(650, 370, 1300, 900, "sprite/background_game.jpg")
 
+    def handle_enemy_collision(self):
+        for enemy in self.enemies_manager.enemies:
+            hits = pg.sprite.spritecollide(enemy, self.all_bullets, True)
+            for hit in hits:
+                enemy.take_hit()  # L'ennemi prend un coup
+                
     def handle_events(self):
-        current_time = pg.time.get_ticks()  # Récupère le temps actuel
-        # Vérifie si suffisamment de temps s'est écoulé depuis le dernier tir
+        current_time = pg.time.get_ticks()  
         if current_time - self.last_shot_time >= 350:  # 350 millisecondes
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     self.running = False
                 elif event.type == pg.KEYDOWN:
                     if event.key == pg.K_SPACE: 
-                        self.weapon.shoot(self.all_bullets)  # Passe le groupe all_bullets à la méthode shoot
-                        self.last_shot_time = pg.time.get_ticks()  # Met à jour le dernier temps de tir
+                        self.weapon.shoot(self.all_bullets)  
+                        self.last_shot_time = pg.time.get_ticks()  
 
     def update_shooter(self):
-        self.weapon.move()  # Déplace l'arme
+        self.weapon.move()  
         for bullet in self.all_bullets:
-            bullet.update()  # Met à jour la position de chaque balle
+            bullet.update()
+        self.enemies_manager.update()
+        self.handle_enemy_collision() 
 
     def draw(self):
         self.display.fill((0, 0, 0))  # Remplit l'écran avec une couleur noire
@@ -42,12 +50,17 @@ class Game(Element):
         # Dessine chaque balle
         for bullet in self.all_bullets:
             self.display.blit(bullet.bullet_canon, bullet.rect)  # Dessine l'image de la balle à l'emplacement de son rect
+        
+        # Dessine chaque ennemi
+        for enemy in self.enemies_manager.enemies:
+            self.display.blit(enemy.image, enemy.rect)  # Dessine l'image de l'ennemi à l'emplacement de son rect
+            enemy.draw_health_bar(self.display)  # Dessine la barre de vie au-dessus de l'ennemi
 
     def run(self):
         while self.running:
             self.handle_events()
             self.update_shooter()
+            self.enemies_manager.spawn_enemy()  # Appel pour faire apparaître les ennemis
             self.draw()
-            self.update()
+            pg.display.flip()  # Met à jour l'affichage
             self.clock.tick(FPS)
-        
