@@ -74,6 +74,7 @@ class Game(Element):
             enemy.draw_health_bar(self.display)  # Dessine la barre de vie au-dessus de l'ennemi
 
 
+
     def run(self):
         while self.running:
             self.handle_events()
