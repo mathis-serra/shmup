@@ -3,7 +3,6 @@ from Main_game.Setting import *
 from Main_game.weapon import Weapon, Bullet
 from gui.element import Element
 from Main_game.Enemy import EnemiesManager
-# from Main_game.Timer import Timer
 
 class Game(Element):
     def __init__(self):
@@ -74,8 +73,7 @@ class Game(Element):
          
 
     def draw(self):
-        self.display.fill((0, 0, 0))  
-        # font = pg.font.Font(None, 36)
+        self.display.fill((0, 0, 0))
         self.draw_map()
         self.display.blit(self.weapon.asset, self.weapon.rect)  # Dessine l'image de l'arme
 
