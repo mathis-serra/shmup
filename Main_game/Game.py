@@ -111,6 +111,7 @@ class Game(Element):
             self.text(40, "Votre score est de : x", self.black, 530, 500)
 
 
+
     def run(self):
         while self.running:
             self.handle_events()
