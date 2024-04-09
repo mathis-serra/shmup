@@ -44,7 +44,7 @@ class Game(Element):
         self.handle_enemy_collision() 
 
     def draw(self):
-        self.display.fill((0, 0, 0))
+        self.display.fill((0, 0, 0))  
         self.draw_map()
         self.display.blit(self.weapon.asset, self.weapon.rect)  # Dessine l'image de l'arme
 
