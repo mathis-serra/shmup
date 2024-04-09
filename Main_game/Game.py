@@ -13,7 +13,8 @@ class Game(Element):
         self.weapon = Weapon()
         self.all_bullets = pg.sprite.Group()
         self.last_shot_time = 0
-        self.enemies_manager = EnemiesManager()  
+        self.enemies_manager = EnemiesManager()
+        self.x_limit = 240  
         
     def draw_map(self):
         self.img(650, 370, 1300, 900, "sprite/background_game.jpg")
@@ -41,7 +42,23 @@ class Game(Element):
         for bullet in self.all_bullets:
             bullet.update()
         self.enemies_manager.update()
-        self.handle_enemy_collision() 
+        self.handle_enemy_collision()
+
+        # Vérifier si un ennemi a atteint la coordonnée X seuil
+        for enemy in self.enemies_manager.enemies:
+            if enemy.rect.right <= self.weapon.rect.x:
+                self.weapon.health -= 1  # Réduire d'un point de vie
+                # Réinitialiser la position de l'ennemi pour éviter de perdre plusieurs points de vie
+                enemy.rect.x = WIDTH  # Réinitialiser la position de l'ennemi
+                # Assurez-vous que le point de vie ne devienne pas négatif
+                self.weapon.health = max(0, self.weapon.health)
+
+        # Vérifier si le joueur est mort
+        if self.weapon.health <= 0:
+            # Gérer la défaite ou autre logique à exécuter lorsque le joueur est mort
+            pass
+        
+         
 
     def draw(self):
         self.display.fill((0, 0, 0))
@@ -56,6 +73,8 @@ class Game(Element):
             enemy.draw_health_bar(self.display)
             self.display.blit(enemy.image, enemy.rect)
             # Dessine la barre de vie au-dessus de l'ennemi
+            
+        self.weapon.health_bar(self.display)
 
     def run(self):
         while self.running:

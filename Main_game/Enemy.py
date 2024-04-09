@@ -1,7 +1,7 @@
 import pygame as pg
 import random
 from Main_game.Setting import WIDTH, HEIGHT
-from Main_game.weapon import Bullet
+from Main_game.weapon import Weapon
 
 class Enemy(pg.sprite.Sprite):
     def __init__(self):
@@ -59,4 +59,7 @@ class EnemiesManager:
         collisions = pg.sprite.groupcollide(self.enemies, bullets_group, False, True)
         for enemy, bullets in collisions.items():
             for bullet in bullets:
-                enemy.take_hit() 
+                enemy.take_hit()
+            
+    def enemy_damage(self):
+        pass 
