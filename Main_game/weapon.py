@@ -21,6 +21,12 @@ class Weapon(pg.sprite.Sprite):
         # Ajouter un décalage manuel pour aligner les images
         self.offset_x = 33
         self.offset_y = -8
+        
+        self.health = 100
+        self.max_health = 100
+        # Dimensions de la barre de vie
+        self.health_bar_length = 100
+        self.health_bar_height = 10
 
     def move(self):
         keys = pg.key.get_pressed()
@@ -42,6 +48,22 @@ class Weapon(pg.sprite.Sprite):
 
         bullet = Bullet(self.rect.centerx, self.rect.top)
         bullets_group.add(bullet)
+        
+    def health_bar(self, surface):
+        # Calcule la largeur de la barre de vie en fonction de la santé
+        bar_width = int((self.health / self.max_health) * self.health_bar_length)
+        # Détermine la couleur de la barre de vie en fonction de la santé
+        if self.health > 50:
+            bar_color = (0, 255, 0)  # Vert
+        elif 20 <= self.health <= 50:
+            bar_color = (255, 255, 0)  # Jaune
+        else:
+            bar_color = (255, 0, 0)  # Rouge
+        # Dessine la barre de vie
+        # Calcule les coordonnées de la barre de vie pour la placer juste au-dessus de l'arme
+        bar_x = self.rect.centerx - bar_width // 2
+        bar_y = self.rect.top - self.health_bar_height
+        pg.draw.rect(surface, bar_color, [bar_x, bar_y, bar_width, self.health_bar_height])
                 
 
     def update(self):

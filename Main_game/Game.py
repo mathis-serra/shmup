@@ -3,7 +3,6 @@ from Main_game.Setting import *
 from Main_game.weapon import Weapon, Bullet
 from gui.element import Element
 from Main_game.Enemy import EnemiesManager
-# from Main_game.Timer import Timer
 
 class Game(Element):
     def __init__(self):
@@ -14,8 +13,8 @@ class Game(Element):
         self.weapon = Weapon()
         self.all_bullets = pg.sprite.Group()
         self.last_shot_time = 0
-        self.enemies_manager = EnemiesManager() 
-        # self.timer = Timer() 
+        self.enemies_manager = EnemiesManager()
+        self.x_limit = 240  
         
     def draw_map(self):
         self.img(650, 370, 1300, 900, "sprite/background_game.jpg")
@@ -33,15 +32,11 @@ class Game(Element):
                 if event.type == pg.QUIT:
                     self.running = False
                 elif event.type == pg.KEYDOWN:
-                    if event.key == pg.K_SPACE:
+                    if event.key == pg.K_SPACE: 
                         self.weapon.shoot(self.all_bullets)  
-                        self.last_shot_time = pg.time.get_ticks()  
-                # elif event.type == self.timer.timer_event:
-                #     self.timer.update()
-                # self.draw()
-                # pg.display.flip()
-                # self.clock.tick(30)
-
+                        self.last_shot_time = pg.time.get_ticks()
+                    elif event.key == pg.K_RETURN and self.end_screen:
+                        self.running = False  
 
 
     def update_shooter(self):
@@ -49,30 +44,45 @@ class Game(Element):
         for bullet in self.all_bullets:
             bullet.update()
         self.enemies_manager.update()
-        self.handle_enemy_collision() 
+        self.handle_enemy_collision()
+
+        # Vérifier si un ennemi a atteint la coordonnée X seuil
+        for enemy in self.enemies_manager.enemies:
+            if enemy.rect.right <= self.x_limit:
+                self.weapon.health -= 50  # Réduire d'un point de vie
+                # Réinitialiser la position de l'ennemi pour éviter de perdre plusieurs points de vie
+                enemy.rect.x = WIDTH  # Réinitialiser la position de l'ennemi
+                # Assurez-vous que le point de vie ne devienne pas négatif
+                self.weapon.health = max(0, self.weapon.health)
+
+        # Vérifier si le joueur est mort
+        if self.weapon.health <= 0:
+            # Gérer la défaite ou autre logique à exécuter lorsque le joueur est mort
+            self.end_screen = True        
+         
 
     def draw(self):
-        self.display.fill((0, 0, 0))  
-        # font = pg.font.Font(None, 36)
+        self.display.fill((0, 0, 0))
         self.draw_map()
-        self.display.blit(self.weapon.asset, self.weapon.rect)  
-        # time_text = font.render(f"{self.timer.get_time()}", True, (255, 255, 255))
-        # text_rect = time_text.get_rect()
-        # text_rect.topright = (780, 20)  # Position en haut à droite
-        # self.display.blit(time_text, text_rect)
+        self.display.blit(self.weapon.asset, self.weapon.rect)  # Dessine l'image de l'arme
 
-
-       
+        # Dessine chaque balle
         for bullet in self.all_bullets:
-            self.display.blit(bullet.bullet_canon, bullet.rect) 
-        
-        # Dessine chaque ennemi
+            self.display.blit(bullet.bullet_canon, bullet.rect)  # Dessine l'image de la balle à l'emplacement de son rect
+            
         for enemy in self.enemies_manager.enemies:
             
             flipped_image = pg.transform.flip(enemy.image, True, False)  # Inverse l'image de l'ennemi
             self.display.blit(flipped_image, enemy.rect)  # Dessine l'image inversée de l'ennemi à l'emplacement de son rect
             enemy.draw_health_bar(self.display)  # Dessine la barre de vie au-dessus de l'ennemi
-
+            self.weapon.health_bar(self.display)
+                    
+    def game_over(self):
+            self.img(650, 370, 1300, 750, "menu/background_menu.png")
+            self.img(630, 140, 320, 110, "menu/logo_game.png")
+            self.text(60, "GAME OVER", self.dark_red, 480, 300)
+            self.text(43, "PRESS ENTER TO RETURN MENU", self.black, 370, 400)
+            self.text(40, "Votre score est de : x", self.black, 530, 500)
 
 
     def run(self):
@@ -82,5 +92,7 @@ class Game(Element):
             self.update_shooter()
             self.enemies_manager.spawn_enemy()  # Appel pour faire apparaître les ennemis
             self.draw()
-            pg.display.flip()  # Met à jour l'affichage
+            if self.end_screen:
+                self.game_over()
+            self.update() # Met à jour l'affichage
             self.clock.tick(FPS)
