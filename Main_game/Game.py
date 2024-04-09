@@ -14,7 +14,7 @@ class Game(Element):
         self.all_bullets = pg.sprite.Group()
         self.last_shot_time = 0
         self.enemies_manager = EnemiesManager()
-        self.x_limit = 240  
+        self.x_limit = 80 
         
     def draw_map(self):
         self.img(650, 370, 1300, 900, "sprite/background_game.jpg")
