@@ -34,8 +34,8 @@ class Enemy(pg.sprite.Sprite):
         fill_width = bar_width * remaining_hits / self.max_hit_count
         outline_rect = pg.Rect(bar_x, bar_y, bar_width, bar_height)
         fill_rect = pg.Rect(bar_x, bar_y, fill_width, bar_height)
-        pg.draw.rect(surface, (0, 255, 0), fill_rect)  # Barre de vie remplie en vert
-        pg.draw.rect(surface, (255, 255, 255), outline_rect, 2)  # Contour de la barre de vie
+        pg.draw.rect(surface, (0, 255, 0), fill_rect)  
+        pg.draw.rect(surface, (255, 255, 255), outline_rect, 2)  
 
 class EnemiesManager:
     def __init__(self):
@@ -43,7 +43,7 @@ class EnemiesManager:
         self.last_enemy_time = 0
 
     def create_enemy(self):
-        enemy = Enemy()  # Crée un nouvel ennemi carré
+        enemy = Enemy() 
         self.enemies.add(enemy)
 
     def update(self):
@@ -56,8 +56,7 @@ class EnemiesManager:
             self.last_enemy_time = current_time
 
     def handle_collisions(self, bullets_group):
-        # Vérifie les collisions avec les balles et les ennemis
         collisions = pg.sprite.groupcollide(self.enemies, bullets_group, False, True)
         for enemy, bullets in collisions.items():
             for bullet in bullets:
-                enemy.take_hit()  # Ennemi touché par une balle
+                enemy.take_hit() 

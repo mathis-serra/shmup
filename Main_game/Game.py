@@ -13,7 +13,7 @@ class Game(Element):
         self.weapon = Weapon()
         self.all_bullets = pg.sprite.Group()
         self.last_shot_time = 0
-        self.enemies_manager = EnemiesManager()  # Initialisation du gestionnaire d'ennemis
+        self.enemies_manager = EnemiesManager()  
         
     def draw_map(self):
         self.img(650, 370, 1300, 900, "sprite/background_game.jpg")
@@ -22,7 +22,7 @@ class Game(Element):
         for enemy in self.enemies_manager.enemies:
             hits = pg.sprite.spritecollide(enemy, self.all_bullets, True)
             for hit in hits:
-                enemy.take_hit()  # L'ennemi prend un coup
+                enemy.take_hit() 
                 
     def handle_events(self):
         current_time = pg.time.get_ticks()  
@@ -31,15 +31,10 @@ class Game(Element):
                 if event.type == pg.QUIT:
                     self.running = False
                 elif event.type == pg.KEYDOWN:
-<<<<<<< HEAD
-                    if event.key == pg.K_SPACE:
-                        self.weapon.shoot(self.all_bullets)
-                        self.last_shot_time = pg.time.get_ticks()  # Met à jour le dernier temps de tir
-=======
-                    if event.key == pg.K_SPACE: 
+
                         self.weapon.shoot(self.all_bullets)  
                         self.last_shot_time = pg.time.get_ticks()  
->>>>>>> 2c44939 (Created enemies and health bars)
+xz
 
 
     def update_shooter(self):
@@ -50,21 +45,20 @@ class Game(Element):
         self.handle_enemy_collision() 
 
     def draw(self):
-        self.display.fill((0, 0, 0))
+        self.display.fill((0, 0, 0))  
         self.draw_map()
-        self.display.blit(self.weapon.asset, self.weapon.rect)
-        # Dessine chaque balle
+        self.display.blit(self.weapon.loaded_cannon, self.weapon.rect)  
+
+       
         for bullet in self.all_bullets:
-<<<<<<< HEAD
-            self.display.blit(bullet.bullet_canon, bullet.rect)            
-=======
-            self.display.blit(bullet.bullet_canon, bullet.rect)  # Dessine l'image de la balle à l'emplacement de son rect
+            self.display.blit(bullet.bullet_canon, bullet.rect) 
         
         # Dessine chaque ennemi
         for enemy in self.enemies_manager.enemies:
+            
             self.display.blit(enemy.image, enemy.rect)  # Dessine l'image de l'ennemi à l'emplacement de son rect
             enemy.draw_health_bar(self.display)  # Dessine la barre de vie au-dessus de l'ennemi
->>>>>>> 2c44939 (Created enemies and health bars)
+
 
     def run(self):
         while self.running:
