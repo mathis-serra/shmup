@@ -29,6 +29,9 @@ class Weapon(pg.sprite.Sprite):
         elif keys[pg.K_s]:
             self.rect.y += 5
 
+        # Limit the movement to stay within the screen boundaries
+        self.rect.y = max(0, min(self.rect.y, HEIGHT - self.rect.height))
+
     def shoot(self, bullets_group):
         self.asset = self.fired_cannon
         self.rect = self.fired_cannon_rect
