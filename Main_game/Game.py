@@ -35,6 +35,7 @@ class Game(Element):
                         self.weapon.shoot(self.all_bullets)  
                         self.last_shot_time = pg.time.get_ticks()  
 
+
     def update_shooter(self):
         self.weapon.move()  
         for bullet in self.all_bullets:
@@ -43,23 +44,23 @@ class Game(Element):
         self.handle_enemy_collision() 
 
     def draw(self):
-        self.display.fill((0, 0, 0))  
+        self.display.fill((0, 0, 0))
         self.draw_map()
-        self.display.blit(self.weapon.loaded_cannon, self.weapon.rect)  
+        self.display.blit(self.weapon.loaded_cannon, self.weapon.rect)  # Dessine l'image de l'arme
 
-       
+        # Dessine chaque balle
         for bullet in self.all_bullets:
-            self.display.blit(bullet.bullet_canon, bullet.rect) 
-        
-        # Dessine chaque ennemi
+            self.display.blit(bullet.bullet_canon, bullet.rect)  # Dessine l'image de la balle à l'emplacement de son rect
+            
         for enemy in self.enemies_manager.enemies:
             enemy.draw_health_bar(self.display)  # Dessine la barre de vie au-dessus de l'ennemi
 
     def run(self):
         while self.running:
             self.handle_events()
+            self.weapon.update()
             self.update_shooter()
             self.enemies_manager.spawn_enemy()  # Appel pour faire apparaître les ennemis
             self.draw()
-            pg.display.flip()  # Met à jour l'affichage
+            self.update() # Met à jour l'affichage
             self.clock.tick(FPS)
