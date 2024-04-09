@@ -34,7 +34,7 @@ class Game(Element):
 
                         self.weapon.shoot(self.all_bullets)  
                         self.last_shot_time = pg.time.get_ticks()  
-xz
+
 
 
     def update_shooter(self):
@@ -47,7 +47,7 @@ xz
     def draw(self):
         self.display.fill((0, 0, 0))  
         self.draw_map()
-        self.display.blit(self.weapon.loaded_cannon, self.weapon.rect)  
+        self.display.blit(self.weapon.asset, self.weapon.rect)  
 
        
         for bullet in self.all_bullets:
@@ -57,7 +57,9 @@ xz
         for enemy in self.enemies_manager.enemies:
             
             self.display.blit(enemy.image, enemy.rect)  # Dessine l'image de l'ennemi à l'emplacement de son rect
-            enemy.draw_health_bar(self.display)  # Dessine la barre de vie au-dessus de l'ennemi
+            enemy.draw_health_bar(self.display)
+            self.display.blit(enemy.image, enemy.rect)
+            # Dessine la barre de vie au-dessus de l'ennemi
 
 
     def run(self):
