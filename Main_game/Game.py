@@ -14,7 +14,7 @@ class Game(Element):
         self.all_bullets = pg.sprite.Group()
         self.last_shot_time = 0
         self.enemies_manager = EnemiesManager()
-        self.x_limit = 240  
+        self.x_limit = 80 
         
     def draw_map(self):
         self.img(650, 370, 1300, 900, "sprite/background_game.jpg")
@@ -46,8 +46,8 @@ class Game(Element):
 
         # Vérifier si un ennemi a atteint la coordonnée X seuil
         for enemy in self.enemies_manager.enemies:
-            if enemy.rect.right <= self.weapon.rect.x:
-                self.weapon.health -= 1  # Réduire d'un point de vie
+            if enemy.rect.right <= self.x_limit:
+                self.weapon.health -= 10  # Réduire d'un point de vie
                 # Réinitialiser la position de l'ennemi pour éviter de perdre plusieurs points de vie
                 enemy.rect.x = WIDTH  # Réinitialiser la position de l'ennemi
                 # Assurez-vous que le point de vie ne devienne pas négatif
