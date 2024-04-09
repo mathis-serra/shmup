@@ -36,6 +36,7 @@ class Game(Element):
                         self.last_shot_time = pg.time.get_ticks()  
 
 
+
     def update_shooter(self):
         self.weapon.move()  
         for bullet in self.all_bullets:
@@ -46,16 +47,19 @@ class Game(Element):
     def draw(self):
         self.display.fill((0, 0, 0))  
         self.draw_map()
-        self.display.blit(self.weapon.asset, self.weapon.rect)  # Dessine l'image de l'arme
+        self.display.blit(self.weapon.asset, self.weapon.rect)  
 
-        # Dessine chaque balle
+       
         for bullet in self.all_bullets:
             self.display.blit(bullet.bullet_canon, bullet.rect)  # Dessine l'image de la balle à l'emplacement de son rect
             
         for enemy in self.enemies_manager.enemies:
+            
+            self.display.blit(enemy.image, enemy.rect)  # Dessine l'image de l'ennemi à l'emplacement de son rect
             enemy.draw_health_bar(self.display)
             self.display.blit(enemy.image, enemy.rect)
             # Dessine la barre de vie au-dessus de l'ennemi
+
 
     def run(self):
         while self.running:
