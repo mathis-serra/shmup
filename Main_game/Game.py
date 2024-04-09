@@ -25,10 +25,9 @@ class Game(Element):
                 if event.type == pg.QUIT:
                     self.running = False
                 elif event.type == pg.KEYDOWN:
-                    if event.key == pg.K_SPACE: 
-                        if self.weapon.shoot(self.all_bullets):
-                            self.last_shot_time = pg.time.get_ticks()  # Met à jour le dernier temps de tir
-                            self.weapon.update(self.all_bullets)  # Réinitialise l'image après un délai
+                    if event.key == pg.K_SPACE:
+                        self.weapon.shoot(self.all_bullets)
+                        self.last_shot_time = pg.time.get_ticks()  # Met à jour le dernier temps de tir
 
 
     def update_shooter(self):
@@ -47,6 +46,7 @@ class Game(Element):
     def run(self):
         while self.running:
             self.handle_events()
+            self.weapon.update()
             self.update_shooter()
             self.draw()
             self.update()

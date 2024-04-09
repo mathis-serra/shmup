@@ -16,7 +16,7 @@ class Weapon(pg.sprite.Sprite):
         self.asset = self.loaded_cannon
         self.rect = self.loaded_cannon_rect
         self.shoot_time = 0
-        self.shoot_duration = 500  # Durée de l'image de tir en millisecondes
+        self.shoot_duration = 50  # Durée de l'image de tir en millisecondes
 
         # Ajouter un décalage manuel pour aligner les images
         self.offset_x = 33
@@ -39,14 +39,12 @@ class Weapon(pg.sprite.Sprite):
 
         bullet = Bullet(self.rect.centerx, self.rect.top)
         bullets_group.add(bullet)
+                
 
-    def update(self, bullets_group):
-        # Vérifie si le temps écoulé depuis le tir dépasse la durée de l'image de tir
-        if pg.time.get_ticks() - self.shoot_time > self.shoot_duration:
+    def update(self):
+        current_time = pg.time.get_ticks()
+        if current_time - self.shoot_time > self.shoot_duration:
             self.reset_image()
-
-        # Met à jour les balles
-        bullets_group.update()
 
     def reset_image(self):
         self.asset = self.loaded_cannon
