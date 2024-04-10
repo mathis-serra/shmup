@@ -3,4 +3,4 @@ import pygame
 
 pygame.init()
 menu = Menu()
-menu.home()  
+menu.home()    
