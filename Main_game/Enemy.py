@@ -6,19 +6,34 @@ from Main_game.weapon import Bullet
 class Enemy(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pg.Surface((30, 30))  # Définit la taille de l'ennemi carré
-        self.image.fill((0, 0, 255))  # Couleur bleue pour l'ennemi carré
+        self.animation_frames = []
+        for i in range(7):  # Assurez-vous d'adapter la boucle pour couvrir toutes les images
+            frame = pg.image.load(f"assets/PNG/1/1_entity_000_walk_00{i}.png").convert_alpha()
+            frame = pg.transform.scale(frame, (90, 90))  # Redimensionnez si nécessaire
+            self.animation_frames.append(frame)
+            # self.image = pg.transform.flip(self.image, True, False)  # Reverse the image horizontally
+        self.frame_index = 0  # Indice du cadre actuel
+        self.image = self.animation_frames[self.frame_index]  # Image actuelle de l'ennemi
         self.rect = self.image.get_rect()
         self.rect.x = WIDTH  # Apparition à droite de l'écran
         self.rect.y = random.randint(0, HEIGHT - self.rect.height)
         self.hit_count = 0  # Nombre de coups reçus
         self.kill_count = 0
         self.max_hit_count = 2  # Nombre maximum de coups avant la destruction de l'ennemi
+        self.animation_speed = 0.2  # Vitesse de l'animation (en secondes)
+        self.last_update = pg.time.get_ticks()  # Dernière mise à jour de l'animatio
 
     def update(self):
         self.rect.x -= 1  # Déplacement vers la gauche
         if self.rect.right < 0:
             self.kill()  # Supprime l'ennemi carré s'il sort de l'écran
+            
+            
+        current_time = pg.time.get_ticks()
+        if current_time - self.last_update > self.animation_speed * 1000:  # Convertir en millisecondes
+            self.last_update = current_time
+            self.frame_index = (self.frame_index + 1) % len(self.animation_frames)  # Boucle à travers les images
+            self.image = self.animation_frames[self.frame_index]  # Mettre à jour l'image affichée
 
     def take_hit(self):
         self.hit_count += 1
@@ -54,6 +69,10 @@ class EnemiesManager:
         if current_time - self.last_enemy_time > 2000:  
             self.create_enemy()
             self.last_enemy_time = current_time
+
+        # Mettre à jour l'animation de chaque ennemi créé
+        for enemy in self.enemies:
+            enemy.update()
 
     def handle_collisions(self, bullets_group):
         collisions = pg.sprite.groupcollide(self.enemies, bullets_group, False, True)

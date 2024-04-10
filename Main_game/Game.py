@@ -31,7 +31,7 @@ class Game(Element):
                 if event.type == pg.QUIT:
                     self.running = False
                 elif event.type == pg.KEYDOWN:
-                    if event.key == pg.K_SPACE: 
+                    if event.key == pg.K_SPACE:
                         self.weapon.shoot(self.all_bullets)  
                         self.last_shot_time = pg.time.get_ticks()  
 
@@ -55,10 +55,9 @@ class Game(Element):
             
         for enemy in self.enemies_manager.enemies:
             
-            self.display.blit(enemy.image, enemy.rect)  # Dessine l'image de l'ennemi à l'emplacement de son rect
-            enemy.draw_health_bar(self.display)
-            self.display.blit(enemy.image, enemy.rect)
-            # Dessine la barre de vie au-dessus de l'ennemi
+            flipped_image = pg.transform.flip(enemy.image, True, False)  # Inverse l'image de l'ennemi
+            self.display.blit(flipped_image, enemy.rect)  # Dessine l'image inversée de l'ennemi à l'emplacement de son rect
+            enemy.draw_health_bar(self.display)  # Dessine la barre de vie au-dessus de l'ennemi
 
 
     def run(self):
