@@ -70,6 +70,7 @@ class Game(Element):
 
     def draw(self):
         self.display.fill((0, 0, 0))  
+        font = pg.font.Font(None, 36)
         self.draw_map()
         self.display.blit(self.weapon.asset, self.weapon.rect)  # Dessine l'image de l'arme
 
