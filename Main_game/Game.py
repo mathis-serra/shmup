@@ -43,6 +43,11 @@ class Game(Element):
                     elif event.key == pg.K_RETURN and self.end_screen:
                         self.running = False  
                         self.last_shot_time = pg.time.get_ticks()  
+                elif event.type == self.timer.timer_event:
+                    self.timer.update()
+                self.draw()
+                pg.display.flip()
+                self.clock.tick(30)
 
 
 
