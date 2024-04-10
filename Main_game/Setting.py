@@ -4,7 +4,7 @@ import random
 WIDTH = 1300
 HEIGHT = 700
 WINDOW_DIMENSION = (WIDTH, HEIGHT)
-FPS = 60
+FPS = 120
 
 
 
