@@ -14,6 +14,7 @@ class Game(Element):
         self.all_bullets = pg.sprite.Group()
         self.last_shot_time = 0
         self.enemies_manager = EnemiesManager()  
+        font = pg.font.Font(None, 36)
         
     def draw_map(self):
         self.img(650, 370, 1300, 900, "sprite/background_game.jpg")
@@ -48,6 +49,10 @@ class Game(Element):
         self.display.fill((0, 0, 0))  
         self.draw_map()
         self.display.blit(self.weapon.asset, self.weapon.rect)  
+        time_text = font.render(f"{self.timer.get_time()}", True, (255, 255, 255))
+        text_rect = time_text.get_rect()
+        text_rect.topright = (780, 20)  # Position en haut à droite
+        self.screen.blit(time_text, text_rect)
 
        
         for bullet in self.all_bullets:
