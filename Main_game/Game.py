@@ -59,7 +59,8 @@ class Game(Element):
         time_text = font.render(f"{self.timer.get_time()}", True, (255, 255, 255))
         text_rect = time_text.get_rect()
         text_rect.topright = (780, 20)  # Position en haut à droite
-        self.Screen.blit(time_text, text_rect)
+        self.display.blit(time_text, text_rect)
+
 
        
         for bullet in self.all_bullets:
