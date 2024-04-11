@@ -3,6 +3,7 @@ from Main_game.Setting import *
 from Main_game.weapon import Weapon, Bullet
 from gui.element import Element
 from Main_game.Enemy import EnemiesManager
+from Main_game.Timer import Timer
 
 class Game(Element):
     def __init__(self):
@@ -11,6 +12,7 @@ class Game(Element):
         self.display = pg.display.set_mode((WIDTH, HEIGHT))
         self.clock = pg.time.Clock()
         self.weapon = Weapon()
+        self.timer = Timer()
         self.all_bullets = pg.sprite.Group()
         self.last_shot_time = 0
         self.enemies_manager = EnemiesManager()
@@ -77,6 +79,11 @@ class Game(Element):
             self.display.blit(flipped_image, enemy.rect)  # Dessine l'image inversée de l'ennemi à l'emplacement de son rect
             enemy.draw_health_bar(self.display)  # Dessine la barre de vie au-dessus de l'ennemi
             self.weapon.health_bar(self.display)
+            
+        # Afficher le temps écoulé
+        font = pg.font.Font(None, 60)
+        time_text = font.render(self.timer.get_time(), True, (255, 255, 255))
+        self.display.blit(time_text, (550, 10))
                     
     def game_over(self):
             self.img(650, 370, 1300, 750, "menu/background_menu.png")
@@ -94,5 +101,6 @@ class Game(Element):
             self.draw()
             if self.end_screen:
                 self.game_over()
+            self.timer.update()
             self.update() # Met à jour l'affichage
             self.clock.tick(FPS)
