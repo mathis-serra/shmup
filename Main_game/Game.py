@@ -3,6 +3,7 @@ from Main_game.Setting import *
 from Main_game.weapon import Weapon, Bullet
 from gui.element import Element
 from Main_game.Enemy import EnemiesManager
+from Main_game.Timer import Timer
 
 class Game(Element):
     def __init__(self):
