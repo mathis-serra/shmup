@@ -3,7 +3,7 @@ from Main_game.Setting import *
 from Main_game.weapon import Weapon, Bullet
 from gui.element import Element
 from Main_game.Enemy import EnemiesManager
-from Main_game.Timer import Timer
+# from Main_game.Timer import Timer
 
 class Game(Element):
     def __init__(self):
@@ -43,11 +43,11 @@ class Game(Element):
                     elif event.key == pg.K_RETURN and self.end_screen:
                         self.running = False  
                         self.last_shot_time = pg.time.get_ticks()  
-                elif event.type == self.timer.timer_event:
-                    self.timer.update()
-                self.draw()
-                pg.display.flip()
-                self.clock.tick(30)
+                # elif event.type == self.timer.timer_event:
+                #     self.timer.update()
+                # self.draw()
+                # pg.display.flip()
+                # self.clock.tick(30)
 
 
 
@@ -75,7 +75,7 @@ class Game(Element):
 
     def draw(self):
         self.display.fill((0, 0, 0))  
-        font = pg.font.Font(None, 36)
+        # font = pg.font.Font(None, 36)
         self.draw_map()
         self.display.blit(self.weapon.asset, self.weapon.rect)  # Dessine l'image de l'arme
 
