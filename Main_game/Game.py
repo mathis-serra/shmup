@@ -3,7 +3,7 @@ from Main_game.Setting import *
 from Main_game.weapon import Weapon, Bullet
 from gui.element import Element
 from Main_game.Enemy import EnemiesManager
-from Main_game.Timer import Timer
+# from Main_game.Timer import Timer
 
 class Game(Element):
     def __init__(self):
@@ -15,7 +15,7 @@ class Game(Element):
         self.all_bullets = pg.sprite.Group()
         self.last_shot_time = 0
         self.enemies_manager = EnemiesManager() 
-        self.timer = Timer() 
+        # self.timer = Timer() 
         
     def draw_map(self):
         self.img(650, 370, 1300, 900, "sprite/background_game.jpg")
@@ -36,11 +36,11 @@ class Game(Element):
                     if event.key == pg.K_SPACE:
                         self.weapon.shoot(self.all_bullets)  
                         self.last_shot_time = pg.time.get_ticks()  
-                elif event.type == self.timer.timer_event:
-                    self.timer.update()
-                self.draw()
-                pg.display.flip()
-                self.clock.tick(30)
+                # elif event.type == self.timer.timer_event:
+                #     self.timer.update()
+                # self.draw()
+                # pg.display.flip()
+                # self.clock.tick(30)
 
 
 
@@ -53,13 +53,13 @@ class Game(Element):
 
     def draw(self):
         self.display.fill((0, 0, 0))  
-        font = pg.font.Font(None, 36)
+        # font = pg.font.Font(None, 36)
         self.draw_map()
         self.display.blit(self.weapon.asset, self.weapon.rect)  
-        time_text = font.render(f"{self.timer.get_time()}", True, (255, 255, 255))
-        text_rect = time_text.get_rect()
-        text_rect.topright = (780, 20)  # Position en haut à droite
-        self.display.blit(time_text, text_rect)
+        # time_text = font.render(f"{self.timer.get_time()}", True, (255, 255, 255))
+        # text_rect = time_text.get_rect()
+        # text_rect.topright = (780, 20)  # Position en haut à droite
+        # self.display.blit(time_text, text_rect)
 
 
        
