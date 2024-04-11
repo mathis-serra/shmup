@@ -80,10 +80,10 @@ class Game(Element):
         
     def game_over(self):
         self.img(650, 370, 1300, 750, "menu/background_menu.png")
-        self.img(630, 180, 320, 110, "menu/logo_game.png")
-        self.text(45, "GAME OVER", self.dark_red, 550, 350)
-        self.text(33, "PRESS ENTER TO RETURN MENU", self.black, 490, 450)
-        self.text(33, "Votre score est de : x", self.black, 550, 550)
+        self.img(630, 140, 320, 110, "menu/logo_game.png")
+        self.text(60, "GAME OVER", self.dark_red, 480, 300)
+        self.text(43, "PRESS ENTER TO RETURN MENU", self.black, 370, 400)
+        self.text(40, "Votre score est de : x", self.black, 530, 500)
         
 
     def run(self):
