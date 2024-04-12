@@ -4,6 +4,7 @@ from Main_game.weapon import Weapon, Bullet
 from gui.element import Element
 from Main_game.Enemy import EnemiesManager
 from Main_game.Timer import Timer
+from Main_game.Enemy import Enemy
 
 class Game(Element):
     def __init__(self):
@@ -18,6 +19,9 @@ class Game(Element):
         self.enemies_manager = EnemiesManager()
         self.x_limit = 80
         self.end_screen = False
+        self.hall_of_hame = False
+        self.enemy = Enemy()
+        self.scores = []
         
     def draw_map(self):
         self.img(650, 370, 1300, 900, "sprite/background_game.jpg")
@@ -26,7 +30,8 @@ class Game(Element):
         for enemy in self.enemies_manager.enemies:
             hits = pg.sprite.spritecollide(enemy, self.all_bullets, True)
             for hit in hits:
-                enemy.take_hit() 
+                enemy.take_hit()
+ 
                 
     def handle_events(self):
         current_time = pg.time.get_ticks()  
@@ -38,8 +43,12 @@ class Game(Element):
                     if event.key == pg.K_SPACE: 
                         self.weapon.shoot(self.all_bullets)  
                         self.last_shot_time = pg.time.get_ticks()
-                    elif event.key == pg.K_RETURN and self.end_screen:
-                        self.running = False  
+                    elif event.key == pg.K_RETURN :
+                        if self.end_screen or self.hall_of_hame:
+                            self.running = False
+                    # elif event.key == pg.K_TAB:
+                    #     if self.end_screen:
+                    #         self.hall_of_hame = True 
 
 
     def update_shooter(self):
@@ -82,15 +91,28 @@ class Game(Element):
             
         # Afficher le temps écoulé
         font = pg.font.Font(None, 60)
-        time_text = font.render(self.timer.get_time(), True, (255, 255, 255))
-        self.display.blit(time_text, (550, 10))
+        time_text = font.render(self.timer.get_time(), True, self.white)
+        self.display.blit(time_text, (550, 10))        
+        
+        # Afficher le score total du joueur
+        font = pg.font.Font(None, 50)
+        score_text = font.render(f"Kill: {self.enemy.kill_player}", True, self.white)
+        self.display.blit(score_text, (10, 650))
                     
     def game_over(self):
-            self.img(650, 370, 1300, 750, "menu/background_menu.png")
-            self.img(630, 140, 320, 110, "menu/logo_game.png")
-            self.text(60, "GAME OVER", self.dark_red, 480, 300)
-            self.text(43, "PRESS ENTER TO RETURN MENU", self.black, 370, 400)
-            self.text(40, "Votre score est de : x", self.black, 530, 500)
+        self.img(650, 370, 1300, 750, "menu/background_menu.png")
+        self.img(630, 140, 320, 110, "menu/logo_game.png")
+        self.text(60, "GAME OVER", self.dark_red, 480, 300)
+        self.text(43, "PRESS ENTER TO RETURN MENU", self.black, 370, 400)
+        self.text(40, f"Votre score est de : {self.enemy.kill_player}", self.black, 530, 500)
+        self.scores.append(self.enemy.kill_player)  # Ajoutez le score total des ennemis à la liste des scores
+        
+    # def display_hall_of_hame(self):
+    #     self.img(650, 370, 1300, 750, "menu/background_home.jpg")
+    #     for score in self.scores:
+    #         self.text(30, f"Votre Score est de : {score}", self.black, 470, 320)              
+        
+
 
     def run(self):
         while self.running:
@@ -101,6 +123,8 @@ class Game(Element):
             self.draw()
             if self.end_screen:
                 self.game_over()
+            # if self.hall_of_hame:
+            #     self.display_hall_of_hame()
             self.timer.update()
             self.update() # Met à jour l'affichage
             self.clock.tick(FPS)

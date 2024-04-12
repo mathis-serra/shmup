@@ -21,13 +21,13 @@ class Enemy(pg.sprite.Sprite):
         self.kill_count = 0
         self.max_hit_count = 2  # Nombre maximum de coups avant la destruction de l'ennemi
         self.animation_speed = 0.2  # Vitesse de l'animation (en secondes)
-        self.last_update = pg.time.get_ticks()  # Dernière mise à jour de l'animatio
+        self.last_update = pg.time.get_ticks()  # Dernière mise à jour de l'animation
+        self.kill_player = 0
 
     def update(self):
         self.rect.x -= 1  # Déplacement vers la gauche
         if self.rect.right < 0:
-            self.kill()  # Supprime l'ennemi carré s'il sort de l'écran
-            
+            self.kill()  # Supprime l'ennemi carré s'il sort de l'écran           
             
         current_time = pg.time.get_ticks()
         if current_time - self.last_update > self.animation_speed * 1000:  # Convertir en millisecondes
@@ -38,6 +38,7 @@ class Enemy(pg.sprite.Sprite):
     def take_hit(self):
         self.hit_count += 1
         if self.hit_count >= self.max_hit_count:  # Si l'ennemi a été touché le nombre maximum de fois
+            self.kill_player += 1  # Incrémente le score chaque fois qu'un ennemi est touché
             self.kill()  # Détruire l'ennemi
 
     def draw_health_bar(self, surface):
@@ -79,6 +80,4 @@ class EnemiesManager:
         for enemy, bullets in collisions.items():
             for bullet in bullets:
                 enemy.take_hit()
-            
-    def enemy_damage(self):
-        pass 
+      
