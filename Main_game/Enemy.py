@@ -81,7 +81,7 @@ class EnemyHigh(pg.sprite.Sprite):
 
     def take_hit(self):
         self.hit_count += 1
-        if self.hit_count >= 5:  # Le bateau pirate prend 5 coups avant d'être détruit
+        if self.hit_count >= 10:  # Le bateau pirate prend 5 coups avant d'être détruit
             self.kill()  # Détruire le bateau pirate
 
             
