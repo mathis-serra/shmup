@@ -22,7 +22,6 @@ class Enemy(pg.sprite.Sprite):
         self.max_hit_count = 2  # Nombre maximum de coups avant la destruction de l'ennemi
         self.animation_speed = 0.2  # Vitesse de l'animation (en secondes)
         self.last_update = pg.time.get_ticks()  # Dernière mise à jour de l'animation
-        self.kill_player = 0
 
     def update(self):
         self.rect.x -= 1  # Déplacement vers la gauche
