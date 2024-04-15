@@ -27,7 +27,6 @@ class Game(Element):
             hits = pg.sprite.spritecollide(enemy, self.all_bullets, True)
             for hit in hits:
                 enemy.take_hit() 
-                enemy.take_hit() 
                 
     def handle_events(self):
         current_time = pg.time.get_ticks()  
@@ -37,18 +36,10 @@ class Game(Element):
                     self.running = False
                 elif event.type == pg.KEYDOWN:
                     if event.key == pg.K_SPACE: 
-
                         self.weapon.shoot(self.all_bullets)  
                         self.last_shot_time = pg.time.get_ticks()
                     elif event.key == pg.K_RETURN and self.end_screen:
                         self.running = False  
-                        self.last_shot_time = pg.time.get_ticks()  
-                # elif event.type == self.timer.timer_event:
-                #     self.timer.update()
-                # self.draw()
-                # pg.display.flip()
-                # self.clock.tick(30)
-
 
 
     def update_shooter(self):
@@ -79,21 +70,13 @@ class Game(Element):
         self.display.blit(self.weapon.asset, self.weapon.rect)  # Dessine l'image de l'arme
 
         # Dessine chaque balle
-        self.display.blit(self.weapon.loaded_cannon, self.weapon.rect)  
-
-       
         for bullet in self.all_bullets:
             self.display.blit(bullet.bullet_canon, bullet.rect)  # Dessine l'image de la balle à l'emplacement de son rect
             
-            self.display.blit(bullet.bullet_canon, bullet.rect) 
-        
-        # Dessine chaque ennemi
         for enemy in self.enemies_manager.enemies:
             
             flipped_image = pg.transform.flip(enemy.image, True, False)  # Inverse l'image de l'ennemi
             self.display.blit(flipped_image, enemy.rect)  # Dessine l'image inversée de l'ennemi à l'emplacement de son rect
-            
-            self.display.blit(enemy.image, enemy.rect)  # Dessine l'image de l'ennemi à l'emplacement de son rect
             enemy.draw_health_bar(self.display)  # Dessine la barre de vie au-dessus de l'ennemi
             self.weapon.health_bar(self.display)
             
@@ -108,7 +91,6 @@ class Game(Element):
             self.text(60, "GAME OVER", self.dark_red, 480, 300)
             self.text(43, "PRESS ENTER TO RETURN MENU", self.black, 370, 400)
             self.text(40, "Votre score est de : x", self.black, 530, 500)
-
 
 
     def run(self):

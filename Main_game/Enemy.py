@@ -119,11 +119,11 @@ class EnemiesManager:
 
     def spawn_enemy(self):
         current_time = pg.time.get_ticks()
-        if current_time - self.last_enemy_time > 30000:  
+        if current_time - self.last_enemy_time > 2000:  
             self.create_enemy()
             self.last_enemy_time = current_time
 
-        if current_time - self.last_high_enemy_time > 2000:  # Créez un nouvel ennemi haut toutes les vingts secondes
+        if current_time - self.last_high_enemy_time > 30000:  # Créez un nouvel ennemi haut toutes les vingts secondes
             self.create_high_enemy()
             self.last_high_enemy_time = current_time
 
