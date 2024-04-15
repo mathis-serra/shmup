@@ -60,7 +60,7 @@ class Enemy(pg.sprite.Sprite):
 class EnemyHigh(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pg.image.load("assets/Pirate-boat.png").convert_alpha()
+        self.image = pg.image.load("assets/sprite/Pirate-boat.png").convert_alpha()
         self.image = pg.transform.scale(self.image, (200, 100))  # Redimensionner l'image
         self.rect = self.image.get_rect()
         self.rect.x = WIDTH
