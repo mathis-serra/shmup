@@ -52,15 +52,68 @@ class Enemy(pg.sprite.Sprite):
         fill_rect = pg.Rect(bar_x, bar_y, fill_width, bar_height)
         pg.draw.rect(surface, (0, 255, 0), fill_rect)  
         pg.draw.rect(surface, (255, 255, 255), outline_rect, 2)  
+        
+        
+        
+        
+        
+        
+class EnemyHigh(pg.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pg.image.load("assets/sprite/Pirate-boat.png").convert_alpha()
+        self.image = pg.transform.scale(self.image, (200, 100))  # Redimensionner l'image
+        self.rect = self.image.get_rect()
+        self.rect.x = WIDTH
+        self.rect.y = random.randint(0, HEIGHT // 2 - self.rect.height)
+        self.hit_count = 0
+        self.max_hit_count = 2
+        self.animation_speed = 0.2
+        self.last_update = pg.time.get_ticks()
+
+    def update(self):
+        self.rect.x -= 1
+        if self.rect.right < 0:
+            self.kill()
+
+        current_time = pg.time.get_ticks()
+        if current_time - self.last_update > self.animation_speed * 1000:
+            self.last_update = current_time
+
+    def take_hit(self):
+        self.hit_count += 1
+        if self.hit_count >= 10:  # Le bateau pirate prend 5 coups avant d'être détruit
+            self.kill()  # Détruire le bateau pirate
+
+            
+    def draw_health_bar(self, surface):
+        bar_width = self.rect.width
+        bar_height = 5
+        bar_x = self.rect.x
+        bar_y = self.rect.y - 10
+        remaining_hits = 5 - self.hit_count  # Calcul du nombre de coups restants
+        fill_width = bar_width * remaining_hits / 5  # Utilisation de 5 comme nombre total de coups
+        fill_rect = pg.Rect(bar_x, bar_y, fill_width, bar_height)
+        outline_rect = pg.Rect(bar_x, bar_y, bar_width, bar_height)
+        pg.draw.rect(surface, (0, 255, 0), fill_rect)  # Dessine la partie remplie de la barre de vie
+        pg.draw.rect(surface, (255, 255, 255), outline_rect, 2)  # Dessine le contour de la barre de vie
+
+                
 
 class EnemiesManager:
     def __init__(self):
         self.enemies = pg.sprite.Group()
         self.last_enemy_time = 0
+        self.last_high_enemy_time = 0  # Ajoutez une nouvelle variable pour suivre le temps du dernier ennemi haut
 
     def create_enemy(self):
         enemy = Enemy() 
+        enemy.rect.y = random.randint(HEIGHT // 2, HEIGHT - enemy.rect.height)
         self.enemies.add(enemy)
+
+    def create_high_enemy(self):
+        enemy_high = EnemyHigh()  # Créez un nouvel ennemi haut
+        self.enemies.add(enemy_high)
 
     def update(self):
         self.enemies.update()
@@ -71,7 +124,10 @@ class EnemiesManager:
             self.create_enemy()
             self.last_enemy_time = current_time
 
-        # Mettre à jour l'animation de chaque ennemi créé
+        if current_time - self.last_high_enemy_time > 30000:  # Créez un nouvel ennemi haut toutes les vingts secondes
+            self.create_high_enemy()
+            self.last_high_enemy_time = current_time
+
         for enemy in self.enemies:
             enemy.update()
 
@@ -79,5 +135,6 @@ class EnemiesManager:
         collisions = pg.sprite.groupcollide(self.enemies, bullets_group, False, True)
         for enemy, bullets in collisions.items():
             for bullet in bullets:
+                enemy.take_hit()
                 enemy.take_hit()
       
