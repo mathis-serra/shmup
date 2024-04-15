@@ -95,6 +95,7 @@ class Game(Element):
 
     def run(self):
         while self.running:
+            super().update()
             self.handle_events()
             self.weapon.update()
             self.update_shooter()
@@ -103,5 +104,4 @@ class Game(Element):
             if self.end_screen:
                 self.game_over()
             self.timer.update()
-            self.update() # Met à jour l'affichage
             self.clock.tick(FPS)
