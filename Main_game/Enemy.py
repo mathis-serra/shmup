@@ -38,8 +38,9 @@ class Enemy(pg.sprite.Sprite):
     def take_hit(self):
         self.hit_count += 1
         if self.hit_count >= self.max_hit_count:  # Si l'ennemi a été touché le nombre maximum de fois
-            self.kill_player += 1  # Incrémente le score chaque fois qu'un ennemi est touché
             self.kill()  # Détruire l'ennemi
+            return True
+        return False
 
     def draw_health_bar(self, surface):
         bar_width = self.rect.width
@@ -84,6 +85,8 @@ class EnemyHigh(pg.sprite.Sprite):
         self.hit_count += 1
         if self.hit_count >= 10:  # Le bateau pirate prend 5 coups avant d'être détruit
             self.kill()  # Détruire le bateau pirate
+            return True
+        return False
 
             
     def draw_health_bar(self, surface):
@@ -135,6 +138,4 @@ class EnemiesManager:
         collisions = pg.sprite.groupcollide(self.enemies, bullets_group, False, True)
         for enemy, bullets in collisions.items():
             for bullet in bullets:
-                enemy.take_hit()
-                enemy.take_hit()
-      
+                enemy.take_hit()      

@@ -2,7 +2,7 @@ import pygame as pg
 from Main_game.Setting import *
 from Main_game.weapon import Weapon, Bullet
 from gui.element import Element
-from Main_game.Enemy import EnemiesManager
+from Main_game.Enemy import EnemiesManager, EnemyHigh
 from Main_game.Timer import Timer
 from Main_game.Enemy import Enemy
 
@@ -21,7 +21,7 @@ class Game(Element):
         self.end_screen = False
         self.hall_of_hame = False
         self.enemy = Enemy()
-        self.scores = []
+        self.score = 0
         
     def draw_map(self):
         self.img(650, 370, 1300, 900, "sprite/background_game.jpg")
@@ -30,7 +30,12 @@ class Game(Element):
         for enemy in self.enemies_manager.enemies:
             hits = pg.sprite.spritecollide(enemy, self.all_bullets, True)
             for hit in hits:
-                enemy.take_hit()
+                if enemy.take_hit():  # Vérifiez si l'ennemi est détruit et incrémentez le score en conséquence
+                    if isinstance(enemy, EnemyHigh):
+                        self.score += 5
+                    else:
+                        self.score += 2
+
  
                 
     def handle_events(self):
@@ -96,7 +101,7 @@ class Game(Element):
         
         # Afficher le score total du joueur
         font = pg.font.Font(None, 50)
-        score_text = font.render(f"Kill: {self.enemy.kill_player}", True, self.white)
+        score_text = font.render(f"Score: {self.score}", True, self.white)
         self.display.blit(score_text, (10, 650))
                     
     def game_over(self):
@@ -105,7 +110,7 @@ class Game(Element):
         self.text(60, "GAME OVER", self.dark_red, 480, 300)
         self.text(43, "PRESS ENTER TO RETURN MENU", self.black, 370, 400)
         self.text(40, f"Votre score est de : {self.enemy.kill_player}", self.black, 530, 500)
-        self.scores.append(self.enemy.kill_player)  # Ajoutez le score total des ennemis à la liste des scores
+        # self.scores.append(self.enemy.kill_player)  # Ajoutez le score total des ennemis à la liste des scores
         
     # def display_hall_of_hame(self):
     #     self.img(650, 370, 1300, 750, "menu/background_home.jpg")
