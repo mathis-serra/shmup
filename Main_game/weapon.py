@@ -16,7 +16,7 @@ class Weapon(pg.sprite.Sprite):
         self.asset = self.loaded_cannon
         self.rect = self.loaded_cannon_rect
         self.shoot_time = 0
-        self.shoot_duration = 50  # Durée de l'image de tir en millisecondes
+        self.shoot_duration = 60  # Durée de l'image de tir en millisecondes
 
         # Ajouter un décalage manuel pour aligner les images
         self.offset_x = 33

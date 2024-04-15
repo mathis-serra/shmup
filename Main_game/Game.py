@@ -39,7 +39,7 @@ class Game(Element):
                 
     def handle_events(self):
         current_time = pg.time.get_ticks()  
-        if current_time - self.last_shot_time >= 350:  
+        if current_time - self.last_shot_time >= 500:  
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     self.running = False

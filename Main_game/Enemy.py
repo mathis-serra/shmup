@@ -24,7 +24,7 @@ class Enemy(pg.sprite.Sprite):
         self.last_update = pg.time.get_ticks()  # Dernière mise à jour de l'animation
 
     def update(self):
-        self.rect.x -= 1  # Déplacement vers la gauche
+        self.rect.x -= 2  # Déplacement vers la gauche
         if self.rect.right < 0:
             self.kill()  # Supprime l'ennemi carré s'il sort de l'écran           
             
@@ -72,7 +72,7 @@ class EnemyHigh(pg.sprite.Sprite):
         self.last_update = pg.time.get_ticks()
 
     def update(self):
-        self.rect.x -= 1
+        self.rect.x -= 1.5
         if self.rect.right < 0:
             self.kill()
 
