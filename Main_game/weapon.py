@@ -30,9 +30,9 @@ class Weapon(pg.sprite.Sprite):
 
     def move(self):
         keys = pg.key.get_pressed()
-        if keys[pg.K_UP]:
+        if keys[pg.K_z]:
             self.rect.y -= 5
-        elif keys[pg.K_DOWN]:
+        elif keys[pg.K_s]:
             self.rect.y += 5
 
         # Limit the movement to stay within the screen boundaries
