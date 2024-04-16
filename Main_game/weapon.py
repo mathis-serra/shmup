@@ -16,23 +16,23 @@ class Weapon(pg.sprite.Sprite):
         self.asset = self.loaded_cannon
         self.rect = self.loaded_cannon_rect
         self.shoot_time = 0
-        self.shoot_duration = 50  # Duration of the shooting image in milliseconds
+        self.shoot_duration = 60  # Duration of the shooting image in milliseconds
 
-        # Add a manual offset to align the images
+        # Adding manual offset to align the images
         self.offset_x = 33
         self.offset_y = -8
         
         self.health = 100
         self.max_health = 100
-        # Dimensions of the health bar
+        # Health bar dimensions
         self.health_bar_length = 100
         self.health_bar_height = 10
 
     def move(self):
         keys = pg.key.get_pressed()
-        if keys[pg.K_z]:
+        if keys[pg.K_UP]:
             self.rect.y -= 5
-        elif keys[pg.K_s]:
+        elif keys[pg.K_DOWN]:
             self.rect.y += 5
 
         # Limit the movement to stay within the screen boundaries
@@ -52,7 +52,7 @@ class Weapon(pg.sprite.Sprite):
     def health_bar(self, surface):
         # Calculate the width of the health bar based on the health
         bar_width = int((self.health / self.max_health) * self.health_bar_length)
-        # Determine the color of the health bar based on the health
+        # Determine the color of the health bar based on health
         if self.health > 50:
             bar_color = (0, 255, 0)  # Green
         elif 20 <= self.health <= 50:
@@ -88,4 +88,4 @@ class Bullet(pg.sprite.Sprite):
     def update(self):
         self.rect.x += self.speed
         if self.rect.bottom < 0:
-            self.kill()  # If the bullet is off the screen, remove it
+            self.kill()  # If bullet is off-screen, remove it
