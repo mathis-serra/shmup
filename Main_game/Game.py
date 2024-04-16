@@ -1,33 +1,34 @@
 import pygame as pg
-# import json
-from Main_game.Setting import *
-from Main_game.weapon import Weapon, Bullet
-from gui.element import Element
-from Main_game.Enemy import EnemiesManager, EnemyHigh
-from Main_game.Timer import Timer
-from Main_game.Enemy import Enemy
+from Main_game.Setting import *  
+from Main_game.weapon import Weapon, Bullet  
+from gui.element import Element 
+from Main_game.Enemy import EnemiesManager, EnemyHigh  
+from Main_game.Timer import Timer  
+from Main_game.Enemy import Enemy 
 
 class Game(Element):
     def __init__(self):
         Element.__init__(self)
-        self.running = True
-        self.display = pg.display.set_mode((WIDTH, HEIGHT))
-        self.clock = pg.time.Clock()
-        self.weapon = Weapon()
-        self.timer = Timer()
-        self.all_bullets = pg.sprite.Group()
-        self.last_shot_time = 0
-        self.enemies_manager = EnemiesManager()
-        self.x_limit = 80
-        self.end_screen = False
-        self.hall_of_hame = False
-        self.enemy = Enemy()
-        self.score = 0
-        
+        self.running = True  # Flag to control game loop
+        self.display = pg.display.set_mode((WIDTH, HEIGHT))  # Set game display window size
+        self.clock = pg.time.Clock()  # Create a clock object to control frame rate
+        self.weapon = Weapon()  # Initialize player weapon
+        self.timer = Timer()  # Initialize game timer
+        self.all_bullets = pg.sprite.Group()  # Group for all bullets in the game
+        self.last_shot_time = 0  # Keep track of the last time a bullet was shot
+        self.enemies_manager = EnemiesManager()  # Initialize the enemies manager
+        self.x_limit = 80  # X-coordinate limit for enemy spawn
+        self.end_screen = False  # Flag to indicate if the game is over
+        self.hall_of_hame = False  # Flag to indicate if the player is in the hall of fame
+        self.enemy = Enemy()  # Initialize a single enemy (unused)
+        self.score = 0  # Player's score
+
     def draw_map(self):
+        """Draw the game map."""
         self.img(650, 370, 1300, 900, "sprite/background_game.jpg")
 
     def handle_enemy_collision(self):
+        """Handle collisions between bullets and enemies."""
         for enemy in self.enemies_manager.enemies:
             hits = pg.sprite.spritecollide(enemy, self.all_bullets, True)
             for hit in hits:
@@ -38,6 +39,7 @@ class Game(Element):
                         self.score += 2
                 
     def handle_events(self):
+        """Handle user input events."""
         current_time = pg.time.get_ticks()  
         if current_time - self.last_shot_time >= 500:  
             for event in pg.event.get():
@@ -55,105 +57,70 @@ class Game(Element):
                             self.hall_of_hame = True 
 
     def update_shooter(self):
-        self.weapon.move()  
+        """Update player-related entities."""
+        self.weapon.move()  # Move the player weapon
         for bullet in self.all_bullets:
-            bullet.update()
-        self.enemies_manager.update()
-        self.handle_enemy_collision()
+            bullet.update()  # Update bullet positions
+        self.enemies_manager.update()  # Update enemy positions and behaviors
+        self.handle_enemy_collision()  # Handle collisions between bullets and enemies
 
         for enemy in self.enemies_manager.enemies:
             if enemy.rect.right <= self.x_limit:
-                self.weapon.health -= 50  
-                enemy.rect.x = WIDTH  
-                self.weapon.health = max(0, self.weapon.health)
+                self.weapon.health -= 50  # Decrease player health when enemy passes x limit
+                enemy.rect.x = WIDTH  # Reset enemy position
+                self.weapon.health = max(0, self.weapon.health)  # Ensure health doesn't go below 0
 
         if self.weapon.health <= 0:
-            self.end_screen = True        
-         
+            self.end_screen = True  # Activate game over screen if player health reaches 0
 
     def draw(self):
-        self.display.fill((0, 0, 0))
-        self.draw_map()
-        self.display.blit(self.weapon.asset, self.weapon.rect)  
+        """Draw game elements on the screen."""
+        self.display.fill((0, 0, 0))  # Fill the screen with black
+        self.draw_map()  # Draw the game map
+        self.display.blit(self.weapon.asset, self.weapon.rect)  # Draw the player weapon
 
         for bullet in self.all_bullets:
-            self.display.blit(bullet.bullet_canon, bullet.rect)  
-            
+            self.display.blit(bullet.bullet_canon, bullet.rect)  # Draw bullets
+
         for enemy in self.enemies_manager.enemies:
-            flipped_image = pg.transform.flip(enemy.image, True, False)  
-            self.display.blit(flipped_image, enemy.rect)  
-            enemy.draw_health_bar(self.display)  
-            self.weapon.health_bar(self.display)
+            flipped_image = pg.transform.flip(enemy.image, True, False)  # Flip enemy image horizontally
+            self.display.blit(flipped_image, enemy.rect)  # Draw enemies
+            enemy.draw_health_bar(self.display)  # Draw health bars for enemies
+            self.weapon.health_bar(self.display)  # Draw player health bar
             
-        font = pg.font.Font(None, 60)
-        time_text = font.render(self.timer.get_time(), True, self.white)
-        self.display.blit(time_text, (550, 10))        
+        font = pg.font.Font(None, 60)  # Define font for timer
+        time_text = font.render(self.timer.get_time(), True, self.white)  # Render timer text
+        self.display.blit(time_text, (550, 10))  # Draw timer text on the screen
         
-        font = pg.font.Font(None, 50)
-        score_text = font.render(f"Score: {self.score}", True, self.white)
-        self.display.blit(score_text, (10, 650))
-                    
+        font = pg.font.Font(None, 50)  # Define font for score
+        score_text = font.render(f"Score: {self.score}", True, self.white)  # Render score text
+        self.display.blit(score_text, (10, 650))  # Draw score text on the screen
+
     def game_over(self):
+        """Handle game over state."""
         self.handle_enemy_collision()
 
         if self.end_screen:
-            self.img(650, 370, 1300, 750, "menu/background_menu.png")
-            self.img(630, 140, 320, 110, "menu/logo_game.png")
-            self.text(60, "GAME OVER", self.dark_red, 480, 300)
-            self.text(43, "PRESS ENTER TO RETURN MENU", self.black, 370, 400)
-            font = pg.font.Font(None, 43)
-            score_text = font.render(f"Votre score est de : {str(self.score)} points", True, self.black)
-            self.display.blit(score_text, (425, 500))
-    
-                    
-        # self.save_score()  # Enregistrer le score lorsque la partie est terminée
-        # self.load_scores()  # Charger les scores à partir du fichier JSON
-        # self.display_hall_of_hame()
-
-    # def display_hall_of_hame(self):
-    #     if self.hall_of_hame:
-    #         if self.scores:
-    #             hall_of_fame_y = (HEIGHT - len(self.scores) * 30 - 40) / 2
-    #             self.text(40, "Hall of Fame:", self.black, 530, hall_of_fame_y)
-    #             for i, score_data in enumerate(self.scores, start=1):
-    #                 score = score_data['score']
-    #                 self.text(30, f"Partie {score_data['id']}: {score}", self.black, 530, hall_of_fame_y + 40 + i * 30)  
-                    
-    # def save_score(self):
-    #     try:
-    #         with open('scores.json', 'r') as file:
-    #             previous_scores = json.load(file)
-    #     except FileNotFoundError:
-    #         previous_scores = {'parties': []}
-
-    #     self.scores.append({'id': len(previous_scores['parties']) + 1, 'score': self.score})
-    #     previous_scores['parties'].extend(self.scores)
-
-    #     with open('scores.json', 'w') as file:
-    #         json.dump(previous_scores, file)
-
-            
-    # def load_scores(self):
-    #     try:
-    #         with open("scores.json", "r") as file:
-    #             scores_data = json.load(file)
-    #             self.scores = scores_data.get('parties', [])
-    #     except FileNotFoundError:
-    #         self.scores = []
-
+            self.img(650, 370, 1300, 750, "menu/background_menu.png")  # Draw background for game over screen
+            self.img(630, 140, 320, 110, "menu/logo_game.png")  # Draw game logo
+            self.text(60, "GAME OVER", self.dark_red, 480, 300)  # Display game over text
+            self.text(43, "PRESS ENTER TO RETURN MENU", self.black, 370, 400)  # Display return to menu prompt
+            font = pg.font.Font(None, 43)  # Define font for score display
+            score_text = font.render(f"Your score is: {str(self.score)} points", True, self.black)  # Render score text
+            self.display.blit(score_text, (425, 500))  # Draw score text on the screen
 
     def run(self):
+        """Main game loop."""
         while self.running:
-            super().update()
-            self.handle_events()
-            self.weapon.update()
-            self.update_shooter()
-            self.enemies_manager.spawn_enemy()  
-            self.draw()  
+            super().update()  # Update GUI elements
+            self.handle_events()  # Handle user input events
+            self.weapon.update()  # Update player weapon
+            self.update_shooter()  # Update player and enemy entities
+            self.enemies_manager.spawn_enemy()  # Spawn new enemies
+            self.draw()  # Draw game elements on the screen
 
             if self.end_screen:
-                self.game_over()
+                self.game_over()  # Handle game over state
 
-            self.timer.update()
-            self.clock.tick(FPS)
-
+            self.timer.update()  # Update game timer
+            self.clock.tick(FPS)  # Control frame rate
